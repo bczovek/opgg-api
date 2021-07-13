@@ -19,10 +19,26 @@ export default function(host, port) {
     return {
         getStats: function(params, callback) {
 
+            let category = params[0],
+                region = params[1],
+                division = params[2],
+                champions = params[3].split('+');
+
             connect().then((client) => {
-                client.hgetall(params.join('_').toLowerCase(), callback);
+                const multi = client.multi();
+                
+                champions.forEach(champion => {
+                    multi.hgetall(`${category}_${region}_${division}_${champion}`);
+                });
+
+                multi.exec((err, replies) => {
+                    if(err){
+                        callback(null, err);
+                    }
+                    callback(replies.filter((reply => reply != null)), null)
+                })
             }).catch((err) => {
-                callback(err, null);
+                callback(null, err);
             });
 
         }

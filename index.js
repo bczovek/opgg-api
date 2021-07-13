@@ -11,6 +11,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use((req, res, next) => {
+  if(req.method != 'GET'){
+    return res.status(405).send('Method not allowed').end();
+  }
+  next();
+});
+
+app.use((req, res, next) => {
     req.database = database(process.env.REDIS_HOST, process.env.REDIS_PORT);
     next();
 });
@@ -18,5 +25,5 @@ app.use((req, res, next) => {
 app.use('/', routes);
 
 app.listen(process.env.PORT, () =>
-  console.log('App listening on port '+ process.env.PORT +'!'),
+  console.log(`App listening on port ${process.env.PORT}!`),
 );
