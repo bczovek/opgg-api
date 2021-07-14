@@ -5,4 +5,8 @@ const router = Router();
 
 router.use('/stats', stats);
 
+router.get('/', (req, res) => {
+    res.send('Nothing here...')
+})
+
 export default router;
