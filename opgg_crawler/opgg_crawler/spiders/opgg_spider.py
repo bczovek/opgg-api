@@ -3,17 +3,13 @@ import time
 from scrapy_selenium import SeleniumRequest
 from scrapy.http import TextResponse 
 import redis
-import yaml
+import os
 
 class TestSpider(scrapy.Spider):
     name = "elise"
 
     def __init__(self):
-
-        with open("databaseconfig.yml", "r") as cfgfile:
-            cfg = yaml.load(cfgfile, Loader=yaml.CLoader)
-
-        self.r = redis.Redis(host=cfg["host"], port=cfg["port"], db=0, decode_responses=True)
+        self.r = redis.Redis.from_url(os.environ['REDIS_URL'])
 
     def start_requests(self):
         yield SeleniumRequest(url = "https://euw.op.gg/statistics/champion/", callback=self.parse_result)
@@ -23,7 +19,7 @@ class TestSpider(scrapy.Spider):
         time.sleep(5)
         driver.find_element_by_css_selector('.css-1litn2c').click()
         time.sleep(2)
-        divisions = ['all','iron', 'bronze', 'silver', 'gold', 'platinum', 'diamond', 'master', 'grandmaster', 'challenger']
+        divisions = ['all']
         for div in divisions:
             driver.find_element_by_css_selector('#tier_'+div+' > label:nth-child(2)').click()
             time.sleep(10)
