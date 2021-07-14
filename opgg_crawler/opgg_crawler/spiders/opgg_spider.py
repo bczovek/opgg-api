@@ -18,7 +18,7 @@ class TestSpider(scrapy.Spider):
         driver = response.request.meta['driver']
         time.sleep(5)
         driver.find_element_by_css_selector('.css-1litn2c').click()
-        time.sleep(2)
+        time.sleep(5)
         divisions = ['all']
         for div in divisions:
             driver.find_element_by_css_selector('#tier_'+div+' > label:nth-child(2)').click()
