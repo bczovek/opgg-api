@@ -5,7 +5,7 @@ from scrapy.http import TextResponse
 import redis
 import os
 
-class TestSpider(scrapy.Spider):
+class OpggSpider(scrapy.Spider):
     name = "elise"
 
     def __init__(self):
