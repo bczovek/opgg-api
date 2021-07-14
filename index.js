@@ -5,6 +5,7 @@ import routes from './routes/index.js';
 import database from './models/database.js';
 
 const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,12 +19,12 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-    req.database = database(process.env.REDIS_HOST, process.env.REDIS_PORT);
+    req.database = database(process.env.REDIS_URL);
     next();
 });
 
 app.use('/', routes);
 
-app.listen(process.env.PORT, () =>
-  console.log(`App listening on port ${process.env.PORT}!`),
+app.listen(port, () =>
+  console.log(`App listening on port ${port}!`),
 );

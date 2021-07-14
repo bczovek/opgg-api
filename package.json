@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "dbupdate": "cd opgg_crawler && scrapy crawl elise && cd .."
   },
   "author": "Bence Czövek",
   "license": "ISC",

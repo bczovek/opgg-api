@@ -1,12 +1,9 @@
 import redis from 'redis';
 
-export default function(host, port) {
+export default function(connectionURL) {
     function connect(){
         return new Promise((resolve, reject) => {
-            const client = redis.createClient({
-                host: host,
-                port: port,
-            });
+            const client = redis.createClient(connectionURL);
     
             client.on('ready', () => {
                 resolve(client);
