@@ -4,11 +4,13 @@ from scrapy_selenium import SeleniumRequest
 from scrapy.http import TextResponse 
 import redis
 import os
+from dotenv import load_dotenv
 
 class OpggSpider(scrapy.Spider):
     name = "elise"
 
     def __init__(self):
+        load_dotenv()
         self.r = redis.Redis.from_url(os.environ['REDIS_URL'])
 
     def start_requests(self):
@@ -19,7 +21,7 @@ class OpggSpider(scrapy.Spider):
         time.sleep(5)
         driver.find_element_by_css_selector('.css-1litn2c').click()
         time.sleep(5)
-        divisions = ['all']
+        divisions = ['all', 'iron', 'bronze', 'silver', 'gold', 'platinum', 'diamond', 'master', 'grandmaster', 'challenger']
         for div in divisions:
             driver.find_element_by_css_selector('#tier_'+div+' > label:nth-child(2)').click()
             time.sleep(10)
